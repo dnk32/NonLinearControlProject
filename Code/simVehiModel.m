@@ -2,9 +2,9 @@
 close all;
 clc;
 %% params
-cntrType = 4; % 1 - control inputs not limited, 2 - limited control, 3 - reaching control, 4- better control structure
-% cntrType 4 gives the best results.
+cntrType = 1; % 1 - uses a lyapunov approach for control. 2 - uses a reaching law to obtain control
 
+% control input limits
 FxLim = 1;
 TLim = 4;
 
@@ -30,7 +30,9 @@ w = q(:,5);
 F = q(:,6);
 
 %% plot
-[Z, Fz, T] = findInputs(q,params);
+[Z, Fz, T] = findInputs(q,params); % find inputs using the state trajectories
+
+% plot position of the vehicle
 figure
 plot(x,y)
 hold on
@@ -42,6 +44,7 @@ xlabel('x(m)','fontweight','bold','fontsize',12)
 ylabel('y(m)','fontweight','bold','fontsize',12)
 legend([h1 h2],'start','ened')
 
+% plot time evolution of states
 figure
 subplot(511)
 plot(t,x)
@@ -59,7 +62,7 @@ subplot(515)
 plot(t,w)
 title('\omega')
 
-
+% plot time evolution of inputs
 figure
 subplot(311)
 plot(t,F)
@@ -77,6 +80,7 @@ xlabel('t','fontweight','bold','fontsize',10)
 ylabel('T','fontweight','bold','fontsize',10)
 title('Tourque Input (T)','fontweight','bold','fontsize',12)
 
+% plot time evolution of FBL states
 figure
 title('z')
 subplot(611)
@@ -98,6 +102,7 @@ subplot(616)
 plot(t,Z(:,6))
 title('z6')
 
+% plot time evolution of the lyapunov function
 figure
 K = [1 2 1 0 0 0; 0 0 0 1 2 1];
 % K = [0 1 1 0 0 0; 0 0 0 0 1 1];

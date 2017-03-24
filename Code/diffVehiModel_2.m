@@ -1,6 +1,7 @@
 function dq = diffVehiModel_2(t,q, params)
 cntrType = params(1);
 
+% states
 th = q(1);
 x = q(2);
 y = q(3);
@@ -8,6 +9,7 @@ vx = q(4);
 w = q(5);
 F = q(6);
 
+% FBL states
 z1 = x;
 z2 = vx*cos(th);
 z3 = -vx*w*sin(th) + F*cos(th);
@@ -23,8 +25,10 @@ rho = [cos(th) -vx*sin(th); sin(th) vx*cos(th)];
 alpha = [-vx*w^2*cos(th) - 2*F*w*sin(th); -vx*w^2*sin(th) + 2*F*w*cos(th)];
 
 %% control input computation
+% sliding surface s = KZ
 K = [1 2 1 0 0 0; 0 0 0 1 2 1];
-% K = [0 1 1 0 0 0; 0 0 0 0 1 1];
+
+% FBL state matrix
 A = [0 1 0 0 0 0;...
      0 0 1 0 0 0;...
      0 0 0 0 0 0;...
@@ -32,15 +36,14 @@ A = [0 1 0 0 0 0;...
      0 0 0 0 0 1;...
      0 0 0 0 0 0];
  
+% compute inputs
 S = rho'*K*Z;
 H = ( K*A*Z + alpha )'*K*Z;
  
-if cntrType==4
-    [T, Fz] = getControls_II(K, A,  Z, rho, alpha, params);
-elseif cntrType==3
+if cntrType==1 % using Lyapunov Method
+    [T, Fz] = getControlsLyapunov(K, A,  Z, rho, alpha, params);
+elseif cntrType==2 % using reaching control
     [T, Fz] = getControlsReaching(K, A,  Z, rho, alpha, params);
-else
-    [T, Fz] = getControls(H, S, F, params);
 end
 
 if (t-floor(t))<0.0001
