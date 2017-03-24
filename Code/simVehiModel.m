@@ -2,8 +2,7 @@
 close all;
 clc;
 %% params
-cntrType = 4; % 1 - control inputs not limited, 2 - limited control, 3 - reaching control, 4- better control structure
-% cntrType 4 gives the best results.
+cntrType = 1; % 1 - uses a lyapunov approach for control, considers input limits. 2 - uses a reaching law to obtain control, no input constriaints
 
 FxLim = 1;
 TLim = 4;

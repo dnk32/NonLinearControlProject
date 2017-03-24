@@ -35,12 +35,10 @@ A = [0 1 0 0 0 0;...
 S = rho'*K*Z;
 H = ( K*A*Z + alpha )'*K*Z;
  
-if cntrType==4
-    [T, Fz] = getControls_II(K, A,  Z, rho, alpha, params);
-elseif cntrType==3
+if cntrType==1
+    [T, Fz] = getControlsLyapunov(K, A,  Z, rho, alpha, params);
+elseif cntrType==2
     [T, Fz] = getControlsReaching(K, A,  Z, rho, alpha, params);
-else
-    [T, Fz] = getControls(H, S, F, params);
 end
 
 if (t-floor(t))<0.0001
