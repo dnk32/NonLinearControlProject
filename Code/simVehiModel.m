@@ -10,6 +10,7 @@ TLim = 4;
 
 params = [cntrType, FxLim, TLim];
 %% initial conditions
+%x00 = -100;
 x0 = -10;
 y0 = -10;
 th0 = 0;
