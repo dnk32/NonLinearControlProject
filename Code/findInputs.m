@@ -2,6 +2,7 @@ function [Z, Fz, T] = findInputs(q,params)
 
 disp('computing input profile using the statue evolution')
 %%
+%cntrType = params(1); %fake commenting out
 cntrType = params(1);
 
 % states
